@@ -1,0 +1,26 @@
+{
+    "name": "teariot/Faker-FillThis",
+    "autoload": {
+        "psr-4": {
+            "TeaRiot\\FakerFillThis\\": "src/"
+        }
+    },
+    "keywords": [
+        "faker",
+        "fillthis.io",
+        "placeholder.com",
+        "provider"
+    ],
+    "homepage": "https://github.com/TeaRiot/Faker-FillThis",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "TeaRiot",
+            "email": "teaRiot@yandex.ru"
+        }
+    ],
+    "require": {
+        "fakerphp/faker": "^1.24",
+        "ext-curl": "*"
+    }
+}

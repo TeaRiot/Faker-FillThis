@@ -1,5 +1,6 @@
 {
-    "name": "teariot/Faker-FillThis",
+    "name": "teariot/faker-fillthis",
+    "description": "A Laravel Faker provider for generating placeholder images via the fillthis.io service.",
     "autoload": {
         "psr-4": {
             "TeaRiot\\FakerFillThis\\": "src/"
@@ -7,8 +8,10 @@
     },
     "keywords": [
         "faker",
+        "laravel",
+        "placeholder",
+        "images",
         "fillthis.io",
-        "placeholder.com",
         "provider"
     ],
     "homepage": "https://github.com/TeaRiot/Faker-FillThis",

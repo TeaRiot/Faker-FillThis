@@ -8,70 +8,40 @@ use TeaRiot\FakerFillThis\Faker\Provider\FillThisImage;
 $faker = Factory::create();
 $faker->addProvider(new FillThisImage($faker));
 
-echo "=== 1. Main Page ===\n";
+echo "=== Main Page ===\n";
 echo "Main page: " . FillThisImage::BASE_URL . "\n\n";
 
-echo "=== 2. Images (ImageController) ===\n";
-
-echo "2.1. Default image:\n";
+echo "1. Default image (no dimensions):\n";
 echo $faker->imageUrl(0, 0) . "\n\n";
 
-echo "2.2. Image with dimensions 800x600 and text \"TestText\":\n";
-echo $faker->imageUrl(800, 600, null, false, "TestText", false, "png") . "\n\n";
-
-echo "2.3. Image with single dimension 500 (500x500):\n";
+echo "2. Image with single dimension 500 (500x500):\n";
 echo $faker->imageUrl(500, 500, null, false, null, false, "png") . "\n\n";
 
-echo "2.4. Image with random parameter:\n";
+echo "3. Image with random word:\n";
 echo $faker->imageUrl(800, 600, null, true, null, false, "png") . "\n\n";
 
-echo "=== 3. Category Images ===\n";
+echo "4. Placeholder for nonexistent category:\n";
+echo $faker->imageUrl(0, 0, "nonexistent", false, null, false, "png") . "\n\n";
 
-echo "3.1. Placeholder for nonexistent category:\n";
-echo $faker->imageUrl(800, 600, "nonexistent", false, null, false, "png") . "\n\n";
+echo "5. Image from category \"fashion\":\n";
+echo $faker->imageUrl(0, 0, "fashion", false, null, false, "png") . "\n\n";
 
-echo "3.2. Image from category \"anime\":\n";
-echo $faker->imageUrl(0, 0, "anime", false, null, false, "png") . "\n\n";
-
-echo "3.3. Image from category \"anime\" with dimensions 800x600:\n";
-echo $faker->imageUrl(800, 600, "anime", false, null, false, "png") . "\n\n";
-
-echo "3.4. Image from category \"all\":\n";
+echo "6. Image from category \"all\":\n";
 echo $faker->imageUrl(0, 0, "all", false, null, false, "png") . "\n\n";
 
-echo "3.5. Image from category \"all\" with dimensions 800x600:\n";
-echo $faker->imageUrl(800, 600, "all", false, null, false, "png") . "\n\n";
+echo "7. Video URL:\n";
+echo $faker->url('video') . "\n\n";
 
-echo "=== 4. Video URL ===\n";
-echo "Video URL: " . $faker->url('video') . "\n\n";
-
-echo "=== 5. Direct Link Mode ===\n";
-$fakerDirect = Factory::create();
-$fakerDirect->addProvider((new FillThisImage($fakerDirect))->setDirectLink(true));
-echo "Direct link image URL (all): " . $fakerDirect->imageUrl(0, 0, "all", false, null, false, "png") . "\n\n";
-
-echo "=== 6. Font Parameter Examples ===\n";
-$fonts = [
-    "lato",
-    "lora",
-    "montserrat",
-    "noto-sans",
-    "open-sans",
-    "oswald",
-    "playfair-display",
-    "poppins",
-    "pt-sans",
-    "raleway",
-    "roboto",
-    "source-sans-pro"
-];
-foreach ($fonts as $font) {
-    echo "Font {$font}:\n";
-    echo $faker->imageUrl(800, 600, null, false, "Custom", false, "png") . "&font={$font}" . "\n\n";
+echo "8. Download image example:\n";
+$imagePath = $faker->image(__DIR__, 800, 600, null, true, true, "TestImage", false, "png");
+if ($imagePath !== false) {
+    echo "Image downloaded at: " . $imagePath . "\n";
+} else {
+    echo "Error downloading image.\n";
 }
 
-echo "=== 7. Download Examples ===\n";
-$imagePath = $faker->image(__DIR__, 800, 600, null, true, true, "TestImage", false, "png");
+echo "\n9. Download image from category \"fashion\":\n";
+$imagePath = $faker->image(__DIR__, 0, 0, "fashion", true, true, null, false, "png");
 if ($imagePath !== false) {
     echo "Image downloaded at: " . $imagePath . "\n";
 } else {

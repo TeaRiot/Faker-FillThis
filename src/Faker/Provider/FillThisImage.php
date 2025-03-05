@@ -28,8 +28,7 @@ class FillThisImage extends Base
     /**
      * Base URL for the fillthis.io service.
      */
-//    public const BASE_URL = 'https://fillthis.io';
-     public const BASE_URL = 'https://fill.this.local';
+    public const BASE_URL = 'https://fillthis.io';
 
     public const FORMAT_JPG  = 'jpg';
     public const FORMAT_JPEG = 'jpeg';

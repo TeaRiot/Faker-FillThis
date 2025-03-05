@@ -2,7 +2,10 @@
 
 namespace TeaRiot\FakerFillThis\Faker\Provider;
 
+use Faker\Factory;
+use Faker\Generator;
 use Faker\Provider\Base;
+use Faker\Provider\Internet;
 use Faker\Provider\Lorem;
 
 class FillThisImage extends Base
@@ -28,6 +31,25 @@ class FillThisImage extends Base
         'abstract', 'animals', 'business', 'cats', 'city', 'food', 'nightlife',
         'fashion', 'people', 'nature', 'sports', 'technics', 'transport', 'anime'
     ];
+
+    /**
+     * If true, the directLink mode is enabled.
+     *
+     * @var bool
+     */
+    protected static bool $directLink = false;
+
+    /**
+     * Set the directLink flag.
+     *
+     * @param bool $flag
+     * @return $this
+     */
+    public function setDirectLink(bool $flag): self
+    {
+        self::$directLink = $flag;
+        return $this;
+    }
 
     /**
      * Generate the URL that will return an image.
@@ -135,7 +157,63 @@ class FillThisImage extends Base
             $query = ($query === '' ? '?' : '&') . 'text=' . urlencode(implode(' ', $textParts));
         }
 
-        return self::BASE_URL . $path . $query;
+        $url = self::BASE_URL . $path . $query;
+
+        if (self::$directLink) {
+            // Append the directLink parameter to the URL
+            $directUrl = $url . (str_contains($url, '?') ? '&' : '?') . 'directLink=1';
+            // Return the effective URL after following redirects
+            return self::getDirectLinkUrl($directUrl);
+        }
+
+        return $url;
+    }
+
+    /**
+     * Isolates and executes the directLink logic.
+     * Performs an HTTP request to the given URL and returns the effective URL after redirects.
+     *
+     * @param string $url URL with the directLink parameter appended.
+     * @return string Effective URL after redirects, or the original URL if unable to follow.
+     */
+    private static function getDirectLinkUrl(string $url): string
+    {
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 10);
+        curl_exec($ch);
+        $redirectedUrl = curl_getinfo($ch, CURLINFO_EFFECTIVE_URL);
+        curl_close($ch);
+        return $redirectedUrl ?: $url;
+    }
+
+    /**
+     * Generate a JSON response containing a URL.
+     *
+     * If the type is "video", this method makes an HTTP request to the video route,
+     * retrieves the JSON response, extracts the URL from it, and returns that URL
+     * in a JSON object. For any other type, it returns a randomly generated URL.
+     *
+     * @param string|null $type
+     * @return string JSON string with the URL.
+     */
+    public static function url(string $type = null): string
+    {
+        if ($type === 'video') {
+            $videoApiUrl = self::BASE_URL . '/video';
+            $response = @file_get_contents($videoApiUrl);
+            if ($response !== false) {
+                $data = json_decode($response, true);
+                if (isset($data['url'])) {
+                    return $data['url'];
+                }
+            }
+            return "https://youtu.be/dQw4w9WgXcQ";
+        }
+
+        return Factory::create()->url();
     }
 
     /**

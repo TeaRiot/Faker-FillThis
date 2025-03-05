@@ -42,11 +42,15 @@ echo $faker->imageUrl(0, 0, "all", false, null, false, "png") . "\n\n";
 echo "3.5. Image from category \"all\" with dimensions 800x600:\n";
 echo $faker->imageUrl(800, 600, "all", false, null, false, "png") . "\n\n";
 
-echo "=== 4. Categories Endpoints ===\n";
-echo "4.1. List of categories: " . FillThisImage::BASE_URL . "/categories" . "\n";
-echo "4.2. Images for category \"anime\": " . FillThisImage::BASE_URL . "/categories/anime/images" . "\n\n";
+echo "=== 4. Video URL ===\n";
+echo "Video URL: " . $faker->url('video') . "\n\n";
 
-echo "=== 5. Font Parameter Examples ===\n";
+echo "=== 5. Direct Link Mode ===\n";
+$fakerDirect = Factory::create();
+$fakerDirect->addProvider((new FillThisImage($fakerDirect))->setDirectLink(true));
+echo "Direct link image URL (all): " . $fakerDirect->imageUrl(0, 0, "all", false, null, false, "png") . "\n\n";
+
+echo "=== 6. Font Parameter Examples ===\n";
 $fonts = [
     "lato",
     "lora",
@@ -66,7 +70,7 @@ foreach ($fonts as $font) {
     echo $faker->imageUrl(800, 600, null, false, "Custom", false, "png") . "&font={$font}" . "\n\n";
 }
 
-echo "=== 6. Download Examples ===\n";
+echo "=== 7. Download Examples ===\n";
 $imagePath = $faker->image(__DIR__, 800, 600, null, true, true, "TestImage", false, "png");
 if ($imagePath !== false) {
     echo "Image downloaded at: " . $imagePath . "\n";

@@ -7,7 +7,7 @@ FakerFillThis is a custom Faker provider for generating placeholder image URLs a
 Install via Composer:
 
 ```bash
-  composer require teariot/faker-fill-this
+  composer require teariot/faker-fillthis
 ```
 
 ## Usage

@@ -97,4 +97,4 @@ if ($imagePath !== false) {
 
 ## Categories
 
-> **Note:** The list of categories is deprecated. To obtain the complete list of categories, call the API at [https://fill.this.local/categories](https://fill.this.local/categories).
+> **Note:** The list of categories is deprecated. To obtain the complete list of categories, call the API at [https://fillthis.io/categories](https://fillthis.io/categories).
